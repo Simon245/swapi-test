@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { filter } from 'rxjs';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'drooms-test';
+  films: any;
+  constructor(private sessionService: SessionService) {
+    this.sessionService.films.pipe(filter(Boolean)).subscribe((res) => {
+      console.log('films', res);
+      this.films = res;
+    });
+  }
 }
