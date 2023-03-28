@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { filter } from 'rxjs';
+import { Film } from 'src/app/models/film';
 import { SessionService } from 'src/app/services/session.service';
 
 @Component({
@@ -8,10 +9,9 @@ import { SessionService } from 'src/app/services/session.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  films: any;
+  films: Film[] = [];
   constructor(private sessionService: SessionService) {
-    this.sessionService.films.pipe(filter(Boolean)).subscribe((res) => {
-      console.log('films', res);
+    this.sessionService.films.pipe(filter(Boolean)).subscribe((res: Film[]) => {
       this.films = res;
     });
   }
