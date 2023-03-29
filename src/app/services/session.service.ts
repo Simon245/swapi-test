@@ -41,7 +41,6 @@ export class SessionService {
         const regex = /api\/(.+)/;
         const result = charUrl.match(regex);
         if (result) {
-          console.log(result[1]);
           this.apiService.get(`/${result[1]}`).subscribe((res) => {
             const chars = this.characters.getValue();
             chars.push(res);

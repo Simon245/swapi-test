@@ -13,7 +13,7 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class FilmDetailComponent implements OnDestroy, OnInit {
   film = {} as Film;
-  characters = {} as Character[];
+  characters = [] as Character[];
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   constructor(
     private sessionService: SessionService,
@@ -21,6 +21,7 @@ export class FilmDetailComponent implements OnDestroy, OnInit {
   ) {}
 
   ngOnInit() {
+    this.characters = [];
     this.route.paramMap
       .pipe(
         map((res: ParamMap) => res.get('id')),
@@ -35,14 +36,29 @@ export class FilmDetailComponent implements OnDestroy, OnInit {
       .subscribe((film: Film) => {
         this.film = film;
         this.sessionService.getCharacters(film.characters);
+        this.setCharacters();
       });
+  }
 
-    // todo: filter characters based on movie
+  // todo: refactor fetching and setting characters
+  setCharacters() {
+    console.log('start loading');
     this.sessionService.characters
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res) => {
-        console.log('characters', res);
-        this.characters = res;
+      .pipe(filter(Boolean), takeUntil(this.ngUnsubscribe))
+      .subscribe((res: Character[]) => {
+        console.log('set characters');
+        const currentFilmCharacters: Character[] = [];
+        this.film.characters.forEach((charUrl: string) => {
+          const hasChar = res.find((char) => char.url === charUrl);
+          if (hasChar) {
+            currentFilmCharacters.push(hasChar);
+          }
+        });
+        // continue a loading screen here until characters length matches film
+        if (currentFilmCharacters.length === this.film.characters.length) {
+          this.characters = currentFilmCharacters;
+          console.log('stop loading');
+        }
       });
   }
 
