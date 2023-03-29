@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  skipWhile,
+  takeWhile,
+} from 'rxjs';
 import { Character } from 'src/app/models/character';
 import { Film } from 'src/app/models/film';
 import { ApiService } from 'src/app/services/api.service';
@@ -27,6 +34,30 @@ export class SessionService {
     );
   }
 
+  getAndStoreCharacter(id: number) {
+    combineLatest([
+      this.films,
+      this.apiService.get(`/people/${id}`).pipe(map((res) => res)),
+    ])
+      .pipe(
+        skipWhile((response) => !response[0].length),
+        skipWhile((response) => !response[1]),
+        takeWhile((res) => !res[0] && !res[1], true),
+        map(([films, character]) => ({ films, character })),
+      )
+      .subscribe(({ films, character }) => {
+        character.id = id;
+        character.films = character.films.map((resFilm: string) => {
+          const filmId = this.getIdFromUrl(resFilm);
+          const film = films.find((f) => f.episode_id === filmId);
+          return { id: film?.episode_id, title: film?.title };
+        });
+        const chars = this.characters.getValue();
+        chars.push(character);
+        this.characters.next(chars);
+      });
+  }
+
   // I'm conflicted about this process because of the condition to not fetch data if I have already loaded it.
   // I could just fetch all characters at once and store them. But in a real app this could be thousands of records and I would not want to store that much data locally.
   // As there is not an api to fetch only the characters I want based on sending an array of id's, i'm going for sending each request when needed and storing those characters, if the characters are already stored, I won't do the request again.
@@ -40,14 +71,7 @@ export class SessionService {
       if (!hasChar) {
         const charId = this.getIdFromUrl(charUrl);
         if (charId) {
-          this.apiService
-            .get(`/people/${charId}`)
-            .subscribe((res: Character) => {
-              res.id = charId;
-              const chars = this.characters.getValue();
-              chars.push(res);
-              this.characters.next(chars);
-            });
+          this.getAndStoreCharacter(charId);
         }
       }
     });
@@ -68,12 +92,7 @@ export class SessionService {
       return char.id === id;
     });
     if (!hasChar) {
-      this.apiService.get(`/people/${id}`).subscribe((res: Character) => {
-        res.id = this.getIdFromUrl(res.url);
-        const chars = this.characters.getValue();
-        chars.push(res);
-        this.characters.next(chars);
-      });
+      this.getAndStoreCharacter(id);
     }
     return this.characters.pipe(
       map(
