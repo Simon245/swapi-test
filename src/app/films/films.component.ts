@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { filter } from 'rxjs';
+import { Component, OnDestroy } from '@angular/core';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { Film } from 'src/app/models/film';
 import { SessionService } from 'src/app/services/session.service';
 
@@ -8,11 +8,19 @@ import { SessionService } from 'src/app/services/session.service';
   templateUrl: './films.component.html',
   styleUrls: ['./films.component.scss'],
 })
-export class FilmsComponent {
+export class FilmsComponent implements OnDestroy {
   films: Film[] = [];
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   constructor(private sessionService: SessionService) {
-    this.sessionService.films.pipe(filter(Boolean)).subscribe((res: Film[]) => {
-      this.films = res;
-    });
+    this.sessionService.films
+      .pipe(filter(Boolean), takeUntil(this.ngUnsubscribe))
+      .subscribe((res: Film[]) => {
+        this.films = res;
+      });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

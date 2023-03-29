@@ -1,5 +1,14 @@
-<p>Title: {{ film.title }}</p>
-<p>Producer: {{ film.producer }}</p>
-<p>Director: {{ film.director }}</p>
-<p>Release date: {{ film.release_date }}</p>
-<p>Opening: {{ film.opening_crawl }}</p>
+<div>
+  <p>Title: {{ film.title }}</p>
+  <p>Producer: {{ film.producer }}</p>
+  <p>Director: {{ film.director }}</p>
+  <p>Release date: {{ film.release_date }}</p>
+  <p>Opening: {{ film.opening_crawl }}</p>
+</div>
+
+<div>
+  <h4>Characters</h4>
+  <ul *ngFor="let character of characters">
+    <li>{{ character.name }}</li>
+  </ul>
+</div>
