@@ -46,7 +46,6 @@ export class FilmDetailComponent implements OnDestroy, OnInit {
     this.sessionService.characters
       .pipe(filter(Boolean), takeUntil(this.ngUnsubscribe))
       .subscribe((res: Character[]) => {
-        console.log('set characters');
         const currentFilmCharacters: Character[] = [];
         this.film.characters.forEach((charUrl: string) => {
           const hasChar = res.find((char) => char.url === charUrl);
@@ -60,10 +59,6 @@ export class FilmDetailComponent implements OnDestroy, OnInit {
           console.log('stop loading');
         }
       });
-  }
-
-  getCharacterUrl(url: string): number {
-    return this.sessionService.getCharacterIdFromUrl(url);
   }
 
   ngOnDestroy() {
