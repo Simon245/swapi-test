@@ -15,18 +15,18 @@ import { ApiService } from 'src/app/services/api.service';
   providedIn: 'root',
 })
 export class SessionService {
-  films: BehaviorSubject<Film[]> = new BehaviorSubject<Film[]>([]);
-  characters: BehaviorSubject<Character[]> = new BehaviorSubject<Character[]>(
+  films$: BehaviorSubject<Film[]> = new BehaviorSubject<Film[]>([]);
+  characters$: BehaviorSubject<Character[]> = new BehaviorSubject<Character[]>(
     [],
   );
   constructor(private apiService: ApiService) {
     this.apiService.get('/films').subscribe((res) => {
-      this.films.next(res.results);
+      this.films$.next(res.results);
     });
   }
 
   getFilmDetails(filmId: number): Observable<Film> {
-    return this.films.pipe(
+    return this.films$.pipe(
       map(
         (films: Film[]) =>
           films.filter((film: Film) => film.episode_id === filmId)[0],
@@ -36,7 +36,7 @@ export class SessionService {
 
   getAndStoreCharacter(id: number) {
     combineLatest([
-      this.films,
+      this.films$,
       this.apiService.get(`/people/${id}`).pipe(map((res) => res)),
     ])
       .pipe(
@@ -52,9 +52,9 @@ export class SessionService {
           const film = films.find((f) => f.episode_id === filmId);
           return { id: film?.episode_id, title: film?.title };
         });
-        const chars = this.characters.getValue();
+        const chars = this.characters$.getValue();
         chars.push(character);
-        this.characters.next(chars);
+        this.characters$.next(chars);
       });
   }
 
@@ -64,7 +64,7 @@ export class SessionService {
   // If the user doesn't reload the page, they will end up with all data loaded in the browser, that's not too much of an issue as there is not much data to work with.
   getCharacters(characterUrls: string[]): void {
     characterUrls.forEach((charUrl: string) => {
-      const hasChar = this.characters
+      const hasChar = this.characters$
         .getValue()
         .find((char) => char.url === charUrl);
 
@@ -88,13 +88,13 @@ export class SessionService {
   }
 
   getCharacter(id: number): Observable<Character> {
-    const hasChar = this.characters.value.find((char: Character) => {
+    const hasChar = this.characters$.value.find((char: Character) => {
       return char.id === id;
     });
     if (!hasChar) {
       this.getAndStoreCharacter(id);
     }
-    return this.characters.pipe(
+    return this.characters$.pipe(
       map(
         (char: Character[]) =>
           char.filter((char: Character) => char.id === id)[0],

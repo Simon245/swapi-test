@@ -43,7 +43,7 @@ export class FilmDetailComponent implements OnDestroy, OnInit {
   // todo: refactor fetching and setting characters
   setCharacters() {
     console.log('start loading');
-    this.sessionService.characters
+    this.sessionService.characters$
       .pipe(filter(Boolean), takeUntil(this.ngUnsubscribe))
       .subscribe((res: Character[]) => {
         const currentFilmCharacters: Character[] = [];

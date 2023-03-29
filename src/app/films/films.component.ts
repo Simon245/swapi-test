@@ -12,7 +12,7 @@ export class FilmsComponent implements OnDestroy {
   films: Film[] = [];
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   constructor(private sessionService: SessionService) {
-    this.sessionService.films
+    this.sessionService.films$
       .pipe(filter(Boolean), takeUntil(this.ngUnsubscribe))
       .subscribe((res: Film[]) => {
         this.films = res;
