@@ -3,6 +3,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Character } from 'src/app/models/character';
 import { Film } from 'src/app/models/film';
 import { ApiService } from 'src/app/services/api.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -38,10 +39,9 @@ export class SessionService {
         .find((char) => char.url === charUrl);
 
       if (!hasChar) {
-        const regex = /api\/(.+)/;
-        const result = charUrl.match(regex);
-        if (result) {
-          this.apiService.get(`/${result[1]}`).subscribe((res) => {
+        const charId = this.getCharacterIdFromUrl(charUrl);
+        if (charId) {
+          this.apiService.get(`/people/${charId}`).subscribe((res) => {
             const chars = this.characters.getValue();
             chars.push(res);
             this.characters.next(chars);
@@ -49,5 +49,37 @@ export class SessionService {
         }
       }
     });
+  }
+
+  // Characters do not have id's, the only one is in the url.
+  getCharacterIdFromUrl(url: string): number {
+    const match = url.match(/\d+/);
+    if (match) {
+      return +match[0];
+    } else {
+      return 0;
+    }
+  }
+
+  getCharacter(id: number): Observable<Character> {
+    const characterUrl = `${environment.apiUrl}/people/${id}/`;
+    const hasChar = this.characters.value.find((char: Character) => {
+      return char.url === characterUrl;
+    });
+    if (!hasChar) {
+      this.apiService
+        .get(`/people/${this.getCharacterIdFromUrl(characterUrl)}`)
+        .subscribe((res) => {
+          const chars = this.characters.getValue();
+          chars.push(res);
+          this.characters.next(chars);
+        });
+    }
+    return this.characters.pipe(
+      map(
+        (char: Character[]) =>
+          char.filter((char: Character) => char.url === characterUrl)[0],
+      ),
+    );
   }
 }

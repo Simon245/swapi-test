@@ -1,5 +1,7 @@
 <div class="">
   <div *ngFor="let film of films">
-    <a [routerLink]="['/details', film.episode_id]">{{ film.title }}</a>
+    <a href="javascript:void(0)" [routerLink]="['/details', film.episode_id]">{{
+      film.title
+    }}</a>
   </div>
 </div>

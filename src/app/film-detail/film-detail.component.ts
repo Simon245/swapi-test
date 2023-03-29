@@ -62,6 +62,10 @@ export class FilmDetailComponent implements OnDestroy, OnInit {
       });
   }
 
+  getCharacterUrl(url: string): number {
+    return this.sessionService.getCharacterIdFromUrl(url);
+  }
+
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

@@ -9,9 +9,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilmDetailComponent } from './film-detail/film-detail.component';
+import { CharacterDetailComponent } from './character-detail/character-detail.component';
 
 @NgModule({
-  declarations: [AppComponent, FilmsComponent, FilmDetailComponent],
+  declarations: [AppComponent, FilmsComponent, FilmDetailComponent, CharacterDetailComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgbModule],
   providers: [ApiService, SessionService],
   bootstrap: [AppComponent],

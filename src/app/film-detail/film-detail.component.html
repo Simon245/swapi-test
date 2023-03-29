@@ -11,7 +11,12 @@
   <ng-container *ngIf="characters.length">
     <ul *ngFor="let character of characters">
       <li>
-        <a href="javascript:void(0)" routerLink="/">{{ character.name }}</a>
+        <a
+          href="javascript:void(0)"
+          [routerLink]="['/character', getCharacterUrl(character.url)]"
+        >
+          {{ character.name }}
+        </a>
       </li>
     </ul>
   </ng-container>

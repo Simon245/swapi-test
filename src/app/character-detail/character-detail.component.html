@@ -1,0 +1,20 @@
+<h2>Character detail</h2>
+<ul *ngIf="character">
+  <li>Name: {{ character.name }}</li>
+  <li>Date of birth: {{ character.birth_year }}</li>
+  <li>Eye color: {{ character.eye_color }}</li>
+  <li>Gender: {{ character.gender }}</li>
+  <li>Hair Color: {{ character.hair_color }}</li>
+  <li>Height: {{ character.height }}</li>
+  <li>Weight: {{ character.mass }}</li>
+  <li>Skin color: {{ character.skin_color }}</li>
+  <li>Homeworld: {{ character.homeworld }}</li>
+  <li>Species: {{ character.species }}</li>
+</ul>
+<h4>Films</h4>
+<ul *ngFor="let film of character.films">
+  <li>
+    <!-- todo Get film name and route to film page-->
+    <a href="javascript:void(0)" routerLink="/">{{ film }}</a>
+  </li>
+</ul>
