@@ -1,0 +1,9 @@
+@import './src/assets/css/variables.scss';
+
+.film-poster {
+  cursor: pointer;
+
+  &:hover {
+    border: 1px solid $star-wars-yellow;
+  }
+}

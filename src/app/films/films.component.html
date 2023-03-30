@@ -5,14 +5,16 @@
         [routerLink]="['/details', film.episode_id]"
         class="col-12 col-md-6 col-xl-4"
       >
-        <div class="poster m-5">
+        <div class="film-poster m-5">
           <img [src]="film.poster_img" alt="" class="w-100" />
         </div>
         <div class="row text-center">
           <div class="col-12">
             <p>EPISODE {{ film.episode_id }}</p>
             <p>{{ film.title }}</p>
-            <p>{{ film.release_date | date : 'YYYY' }}</p>
+            <p class="star-wars-yellow">
+              {{ film.release_date | date : 'YYYY' }}
+            </p>
           </div>
         </div>
       </div>
