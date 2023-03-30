@@ -1,6 +1,8 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { FilmsComponent } from 'src/app/films/films.component';
 import { ApiService } from 'src/app/services/api.service';
 import { SessionService } from 'src/app/services/session.service';
@@ -24,7 +26,14 @@ import { CharacterInfoComponent } from './components/character-info/character-in
     FooterComponent,
     CharacterInfoComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgbModule],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    NgbModule,
+    NgxSpinnerModule,
+  ],
   providers: [ApiService, SessionService],
   bootstrap: [AppComponent],
 })

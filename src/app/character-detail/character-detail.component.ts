@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject, takeUntil } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { Character } from 'src/app/models/character';
@@ -15,11 +16,12 @@ export class CharacterDetailComponent implements OnDestroy, OnInit {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   constructor(
     private sessionService: SessionService,
+    private spinnerService: NgxSpinnerService,
     private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
-    // todo: start loading
+    this.spinnerService.show();
     this.route.paramMap
       .pipe(
         map((res: ParamMap) => res.get('id')),
@@ -27,12 +29,12 @@ export class CharacterDetailComponent implements OnDestroy, OnInit {
         switchMap((params: string) => {
           return this.sessionService.getCharacter(Number(params));
         }),
-        filter(Boolean),
+        filter((res) => !!res),
         takeUntil(this.ngUnsubscribe),
       )
       .subscribe((character: Character) => {
         this.character = character;
-        // todo: finish loading
+        this.spinnerService.hide();
       });
   }
 
