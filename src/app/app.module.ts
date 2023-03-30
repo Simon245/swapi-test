@@ -12,6 +12,7 @@ import { FilmDetailComponent } from './film-detail/film-detail.component';
 import { CharacterDetailComponent } from './character-detail/character-detail.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { CharacterInfoComponent } from './components/character-info/character-info.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { FooterComponent } from './components/footer/footer.component';
     CharacterDetailComponent,
     HeaderComponent,
     FooterComponent,
+    CharacterInfoComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgbModule],
   providers: [ApiService, SessionService],

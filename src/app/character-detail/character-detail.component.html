@@ -1,22 +1,57 @@
-<h2>Character detail</h2>
-<ul *ngIf="character">
-  <li>Name: {{ character.name }}</li>
-  <li>Date of birth: {{ character.birth_year }}</li>
-  <li>Eye color: {{ character.eye_color }}</li>
-  <li>Gender: {{ character.gender }}</li>
-  <li>Hair Color: {{ character.hair_color }}</li>
-  <li>Height: {{ character.height }}</li>
-  <li>Weight: {{ character.mass }}</li>
-  <li>Skin color: {{ character.skin_color }}</li>
-  <li>Homeworld: {{ character.homeworld }}</li>
-  <li>Species: {{ character.species }}</li>
-</ul>
-<h4>Films</h4>
-<ul *ngFor="let film of character.films">
-  <li>
-    <!-- todo Get film name and route to film page-->
-    <a href="javascript:void(0)" [routerLink]="['/details', film.id]">{{
-      film.title
-    }}</a>
-  </li>
-</ul>
+<div class="container">
+  <div class="row my-5 text-center">
+    <div class="col-12">
+      <h2>{{ character.name }}</h2>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-auto">
+      <app-character-info
+        [label]="'Birth Year'"
+        [detail]="character.birth_year"
+      ></app-character-info>
+      <app-character-info
+        [label]="'Eye Colour'"
+        [detail]="character.eye_color"
+      ></app-character-info>
+      <app-character-info
+        [label]="'Gender'"
+        [detail]="character.gender"
+      ></app-character-info>
+      <app-character-info
+        [label]="'Hair Colour'"
+        [detail]="character.hair_color"
+      ></app-character-info>
+      <app-character-info
+        [label]="'Height'"
+        [detail]="character.height"
+      ></app-character-info>
+      <app-character-info
+        [label]="'Weight'"
+        [detail]="character.mass"
+      ></app-character-info>
+      <app-character-info
+        [label]="'Skin Color'"
+        [detail]="character.skin_color"
+      ></app-character-info>
+    </div>
+  </div>
+
+  <div class="row mt-5 mb-4 text-center">
+    <div class="col-12">
+      <h4>Films</h4>
+    </div>
+  </div>
+  <div class="row text-center">
+    <ng-container *ngFor="let film of character.films">
+      <div class="col-12 mb-4">
+        <a
+          class="link-light"
+          href="javascript:void(0)"
+          [routerLink]="['/details', film.id]"
+          >{{ film.title }}</a
+        >
+      </div>
+    </ng-container>
+  </div>
+</div>
