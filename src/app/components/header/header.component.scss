@@ -1,0 +1,12 @@
+@import './src/assets/css/variables.scss';
+
+.navbar-brand {
+  font-family: 'SF Distant Galaxy', sans-serif;
+  color: $star-wars-yellow;
+}
+
+.navbar {
+  &.navbar-dark {
+    border-bottom: 1px solid #fff;
+  }
+}

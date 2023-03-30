@@ -10,9 +10,18 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilmDetailComponent } from './film-detail/film-detail.component';
 import { CharacterDetailComponent } from './character-detail/character-detail.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
-  declarations: [AppComponent, FilmsComponent, FilmDetailComponent, CharacterDetailComponent],
+  declarations: [
+    AppComponent,
+    FilmsComponent,
+    FilmDetailComponent,
+    CharacterDetailComponent,
+    HeaderComponent,
+    FooterComponent,
+  ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgbModule],
   providers: [ApiService, SessionService],
   bootstrap: [AppComponent],
