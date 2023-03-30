@@ -1,7 +1,21 @@
-<div class="">
-  <div *ngFor="let film of films">
-    <a href="javascript:void(0)" [routerLink]="['/details', film.episode_id]">{{
-      film.title
-    }}</a>
+<div class="container">
+  <div class="row">
+    <ng-container *ngFor="let film of films">
+      <div
+        [routerLink]="['/details', film.episode_id]"
+        class="col-12 col-md-6 col-xl-4"
+      >
+        <div class="poster m-5">
+          <img [src]="film.poster_img" alt="" class="w-100" />
+        </div>
+        <div class="row text-center">
+          <div class="col-12">
+            <p>EPISODE {{ film.episode_id }}</p>
+            <p>{{ film.title }}</p>
+            <p>{{ film.release_date | date : 'YYYY' }}</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>

@@ -4,7 +4,7 @@ export interface Film {
   opening_crawl: string;
   director: string;
   producer: string;
-  release_date: Date;
+  release_date: string;
   species: string[];
   starships: string[];
   vehicles: string[];
@@ -13,4 +13,5 @@ export interface Film {
   url: string;
   created: string;
   edited: string;
+  poster_img: string;
 }

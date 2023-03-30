@@ -21,6 +21,9 @@ export class SessionService {
   );
   constructor(private apiService: ApiService) {
     this.apiService.get('/films').subscribe((res) => {
+      res.results.map((film: Film) => {
+        return (film.poster_img = `assets/images/episode-${film.episode_id}.png`);
+      });
       this.films$.next(res.results);
     });
   }
