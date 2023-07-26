@@ -1,4 +1,6 @@
-# DroomsTest
+# Star Wars API
+
+Test project using Angular and the [Star Wars API](https://swapi.dev/) to fetch data
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
 
