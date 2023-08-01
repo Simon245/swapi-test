@@ -2,6 +2,8 @@
 
 Test project using Angular and the [Star Wars API](https://swapi.dev/) to fetch data
 
+Hosted on github pages [https://simon245.github.io/swapi-test](https://simon245.github.io/swapi-test)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
 
 ## Development server
